@@ -1,4 +1,3 @@
-const DEV_GROQ_KEY = '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'
 const GROQ_ENDPOINT = 'https://api.groq.com/openai/v1/chat/completions'
 const GROQ_MODEL = 'llama-3.3-70b-versatile'
 
@@ -20,7 +19,7 @@ export async function callAiApi(messages: { role: string; content: string }[]): 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${DEV_GROQ_KEY}`,
+        'Authorization': `Bearer ${import.meta.env.VITE_GROQ_KEY}`,
       },
       body: JSON.stringify(body),
     })
