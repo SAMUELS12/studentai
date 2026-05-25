@@ -114,13 +114,28 @@ export default function AIAssistant() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-10rem)] lg:h-[calc(100vh-8rem)] rounded-2xl border border-slate-700/30 overflow-hidden shadow-lg bg-card/90 max-w-6xl mx-auto">
-      {/* Sidebar */}
-      <div className={`flex-shrink-0 border-r border-slate-700/30 bg-sidebar/80 flex flex-col transition-all duration-300 ${sidebarOpen ? 'w-60' : 'w-0 overflow-hidden'}`}>
-        <div className="p-3 border-b border-slate-700/20">
+    <div className="flex h-[calc(100dvh-14rem)] lg:h-[calc(100vh-8rem)] rounded-2xl border border-slate-700/30 overflow-hidden shadow-lg bg-card/90 max-w-6xl mx-auto relative">
+      {/* Backdrop for mobile sidebar */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      {/* Sidebar - overlays on mobile, side-by-side on desktop */}
+      <div className={`
+        fixed inset-y-0 left-0 z-40 w-60
+        lg:static lg:z-auto lg:flex-shrink-0 lg:border-r lg:border-slate-700/30
+        bg-sidebar/95 lg:bg-sidebar/80 backdrop-blur-2xl lg:backdrop-blur-none
+        flex flex-col transition-all duration-300 ease-in-out shadow-2xl lg:shadow-none
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        ${sidebarOpen ? 'w-60' : 'lg:w-0 lg:overflow-hidden'}
+      `}>
+        <div className="p-3 border-b border-slate-700/20 flex items-center justify-between">
           <button onClick={newConversation}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 text-sm font-medium text-slate-300 bg-slate-800/50 hover:bg-slate-700/50 rounded-xl border border-slate-700/30 transition-all">
+            className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 text-sm font-medium text-slate-300 bg-slate-800/50 hover:bg-slate-700/50 rounded-xl border border-slate-700/30 transition-all">
             <Plus size={16} /> New Chat
+          </button>
+          <button onClick={() => setSidebarOpen(false)} className="lg:hidden ml-2 p-1.5 rounded-lg hover:bg-slate-800/50 transition-all">
+            <PanelLeftClose size={16} className="text-slate-400" />
           </button>
         </div>
         <div className="flex-1 overflow-y-auto scrollbar-thin p-2 space-y-1">
@@ -146,7 +161,7 @@ export default function AIAssistant() {
             </div>
           ))}
         </div>
-        <div className="p-2 border-t border-slate-700/20">
+        <div className="p-2 border-t border-slate-700/20 hidden lg:block">
           <button onClick={() => setSidebarOpen(false)}
             className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs text-slate-500 hover:text-slate-300 hover:bg-slate-800/30 rounded-lg transition-all">
             <PanelLeftClose size={14} /> Collapse
