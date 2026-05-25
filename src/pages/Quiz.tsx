@@ -152,10 +152,11 @@ Make them genuinely difficult. Return ONLY the JSON array, no other text.`
         userAnswer: null,
       }))
 
-      dispatch({
-        type: 'ADD_QUIZ',
-        payload: { ...quiz, id: generateId(), questions: newQuestions, score: 0, completed: false, createdAt: new Date().toISOString() },
-      })
+      const newQuiz = { ...quiz, id: generateId(), questions: newQuestions, score: 0, completed: false, createdAt: new Date().toISOString() }
+      dispatch({ type: 'ADD_QUIZ', payload: newQuiz })
+      setActiveQuiz(newQuiz.id)
+      setCurrentQ(0)
+      setShowResults(false)
     } catch (err: any) {
       setError(err.message || 'Failed to generate quiz.')
     } finally {
