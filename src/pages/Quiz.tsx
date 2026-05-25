@@ -101,6 +101,7 @@ Return ONLY the JSON array, no other text. Example format:
       setSubject('')
     } catch (err: any) {
       setError(err.message || 'Failed to generate quiz. Check your API key.')
+      setActiveQuiz(null)
     } finally {
       setGenerating(false)
     }
@@ -156,6 +157,7 @@ Make them genuinely difficult. Return ONLY the JSON array, no other text.`
       setShowResults(false)
     } catch (err: any) {
       setError(err.message || 'Failed to generate quiz.')
+      setActiveQuiz(null)
     } finally {
       setGenerating(false)
     }
