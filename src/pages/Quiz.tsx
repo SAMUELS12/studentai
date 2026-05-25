@@ -71,14 +71,11 @@ Return ONLY the JSON array, no other text. Example format:
       let questions = parseAiQuestions(response)
 
       if (questions.length < count) {
-        const retryPrompt = `Generate exactly ${count} challenging multiple choice questions about "${subject.trim()}". 
-Return ONLY a valid JSON array with ${count} objects. Each object: {"question": "...", "options": ["A","B","C","D"], "correctIndex": N}
-Make them competitive exam level. No other text.`
-        const retryResponse = await callAiApi([{ role: 'user', content: retryPrompt }])
+        const retryResponse = await callAiApi([{ role: 'user', content: `Return a JSON array of ${count} quiz objects about "${subject.trim()}" with keys: question, options (array of 4), correctIndex (0-3). No other text.` }])
         questions = parseAiQuestions(retryResponse)
       }
 
-      if (questions.length === 0) throw new Error('Could not generate valid questions')
+      if (questions.length === 0) throw new Error(`AI returned: "${response.slice(0, 200)}" — couldn't parse. Try again.`)
 
       const quizQuestions: QuizQuestion[] = questions.slice(0, count).map(q => ({
         id: generateId(),
